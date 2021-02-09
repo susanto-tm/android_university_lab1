@@ -1,6 +1,8 @@
 package com.codepath.bestsellerlistapp;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.core.widget.ContentLoadingProgressBar;
@@ -24,7 +26,7 @@ import java.util.List;
 /**
  * A fragment representing a list of Items.
  */
-public class BestSellerBooksFragment extends Fragment implements OnListFragmentInteractionListener{
+public class BestSellerBooksFragment extends Fragment implements OnListFragmentInteractionListener, OnBuyButtonClickListener{
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -62,7 +64,7 @@ public class BestSellerBooksFragment extends Fragment implements OnListFragmentI
             @Override
             public void onSuccess(List<BestSellerBook> models) {
                 progressBar.hide();
-                recyclerView.setAdapter(new BestSellerBooksRecyclerViewAdapter(models, BestSellerBooksFragment.this));
+                recyclerView.setAdapter(new BestSellerBooksRecyclerViewAdapter(models, BestSellerBooksFragment.this, BestSellerBooksFragment.this));
                 Log.d("BestSellerBooksFragment", "response successful");
             }
 
@@ -89,5 +91,10 @@ public class BestSellerBooksFragment extends Fragment implements OnListFragmentI
     @Override
     public void onItemClick(BestSellerBook item) {
         Toast.makeText(getContext(), "test", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onBuyButtonClick(BestSellerBook book) {
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(book.amazonUrl)));
     }
 }
